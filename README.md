@@ -1,0 +1,2 @@
+# msp430g2553_bsp
+BSP for MSP430G2553
