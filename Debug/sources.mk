@@ -112,4 +112,10 @@ PDE_DEPS__QUOTED :=
 # Every subdirectory with source files must be described here
 SUBDIRS := \
 . \
+pfal/adc \
+pfal/i2c \
+pfal/sdmmc \
+pfal/spi \
+pfal/timer \
+pfal/uart \
 

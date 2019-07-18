@@ -10,7 +10,15 @@ GEN_OPTS__FLAG :=
 GEN_CMDS__FLAG := 
 
 ORDERED_OBJS += \
-"./blink.obj" \
+"./main.obj" \
+"./pfal/adc/adc.obj" \
+"./pfal/i2c/i2c.obj" \
+"./pfal/sdmmc/diskio.obj" \
+"./pfal/sdmmc/pff.obj" \
+"./pfal/sdmmc/sdmmc.obj" \
+"./pfal/spi/spi.obj" \
+"./pfal/timer/timer.obj" \
+"./pfal/uart/uart.obj" \
 "../lnk_msp430g2553.cmd" \
 $(GEN_CMDS__FLAG) \
 -llibc.a \
@@ -23,7 +31,19 @@ RMDIR := RMDIR /S/Q
 # All of the sources participating in the build are defined here
 -include sources.mk
 -include subdir_vars.mk
+-include pfal/adc/subdir_vars.mk
+-include pfal/i2c/subdir_vars.mk
+-include pfal/sdmmc/subdir_vars.mk
+-include pfal/spi/subdir_vars.mk
+-include pfal/timer/subdir_vars.mk
+-include pfal/uart/subdir_vars.mk
 -include subdir_rules.mk
+-include pfal/adc/subdir_rules.mk
+-include pfal/i2c/subdir_rules.mk
+-include pfal/sdmmc/subdir_rules.mk
+-include pfal/spi/subdir_rules.mk
+-include pfal/timer/subdir_rules.mk
+-include pfal/uart/subdir_rules.mk
 -include objects.mk
 
 ifneq ($(MAKECMDGOALS),clean)
@@ -120,42 +140,42 @@ endif
 
 # Add inputs and outputs from these tool invocations to the build variables 
 EXE_OUTPUTS += \
-SoftwareUart.out \
+msp430g2553_bsp.out \
 
 EXE_OUTPUTS__QUOTED += \
-"SoftwareUart.out" \
+"msp430g2553_bsp.out" \
 
 BIN_OUTPUTS += \
-SoftwareUart.hex \
+msp430g2553_bsp.hex \
 
 BIN_OUTPUTS__QUOTED += \
-"SoftwareUart.hex" \
+"msp430g2553_bsp.hex" \
 
 
 # All Target
 all: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
-	@$(MAKE) --no-print-directory -Onone "SoftwareUart.out"
+	@$(MAKE) --no-print-directory -Onone "msp430g2553_bsp.out"
 
 # Tool invocations
-SoftwareUart.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
+msp430g2553_bsp.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 	@echo 'Building target: "$@"'
 	@echo 'Invoking: MSP430 Linker'
-	"C:/ti/ccsv8/tools/compiler/ti-cgt-msp430_18.1.3.LTS/bin/cl430" -vmsp --use_hw_mpy=none --advice:power=all --define=__MSP430G2553__ -g --printf_support=minimal --diag_warning=225 --diag_wrap=off --display_error_number -z -m"SoftwareUart.map" --heap_size=80 --stack_size=80 -i"C:/ti/ccsv8/ccs_base/msp430/include" -i"C:/ti/ccsv8/tools/compiler/ti-cgt-msp430_18.1.3.LTS/lib" -i"C:/ti/ccsv8/tools/compiler/ti-cgt-msp430_18.1.3.LTS/include" --reread_libs --diag_wrap=off --display_error_number --warn_sections --xml_link_info="SoftwareUart_linkInfo.xml" --use_hw_mpy=none --rom_model -o "SoftwareUart.out" $(ORDERED_OBJS)
+	"C:/ti/ccsv8/tools/compiler/ti-cgt-msp430_18.1.3.LTS/bin/cl430" -vmsp --use_hw_mpy=none --advice:power=all --define=__MSP430G2553__ -g --printf_support=minimal --diag_warning=225 --diag_wrap=off --display_error_number -z -m"msp430g2553_bsp.map" --heap_size=80 --stack_size=80 -i"C:/ti/ccsv8/ccs_base/msp430/include" -i"C:/ti/ccsv8/tools/compiler/ti-cgt-msp430_18.1.3.LTS/lib" -i"C:/ti/ccsv8/tools/compiler/ti-cgt-msp430_18.1.3.LTS/include" --reread_libs --diag_wrap=off --display_error_number --warn_sections --xml_link_info="msp430g2553_bsp_linkInfo.xml" --use_hw_mpy=none --rom_model -o "msp430g2553_bsp.out" $(ORDERED_OBJS)
 	@echo 'Finished building target: "$@"'
 	@echo ' '
 
-SoftwareUart.hex: $(EXE_OUTPUTS)
+msp430g2553_bsp.hex: $(EXE_OUTPUTS)
 	@echo 'Building files: $(strip $(EXE_OUTPUTS__QUOTED))'
 	@echo 'Invoking: MSP430 Hex Utility'
-	"C:/ti/ccsv8/tools/compiler/ti-cgt-msp430_18.1.3.LTS/bin/hex430" --memwidth=8 --romwidth=8 -o "SoftwareUart.hex" $(EXE_OUTPUTS__QUOTED)
+	"C:/ti/ccsv8/tools/compiler/ti-cgt-msp430_18.1.3.LTS/bin/hex430" --memwidth=8 --romwidth=8 -o "msp430g2553_bsp.hex" $(EXE_OUTPUTS__QUOTED)
 	@echo 'Finished building: $(strip $(EXE_OUTPUTS__QUOTED))'
 	@echo ' '
 
 # Other Targets
 clean:
 	-$(RM) $(BIN_OUTPUTS__QUOTED)$(EXE_OUTPUTS__QUOTED)
-	-$(RM) "blink.obj" 
-	-$(RM) "blink.d" 
+	-$(RM) "main.obj" "pfal\adc\adc.obj" "pfal\i2c\i2c.obj" "pfal\sdmmc\diskio.obj" "pfal\sdmmc\pff.obj" "pfal\sdmmc\sdmmc.obj" "pfal\spi\spi.obj" "pfal\timer\timer.obj" "pfal\uart\uart.obj" 
+	-$(RM) "main.d" "pfal\adc\adc.d" "pfal\i2c\i2c.d" "pfal\sdmmc\diskio.d" "pfal\sdmmc\pff.d" "pfal\sdmmc\sdmmc.d" "pfal\spi\spi.d" "pfal\timer\timer.d" "pfal\uart\uart.d" 
 	-@echo 'Finished clean'
 	-@echo ' '
 
