@@ -980,7 +980,7 @@ FRESULT pf_read (
 /*-----------------------------------------------------------------------*/
 /* Write File                                                            */
 /*-----------------------------------------------------------------------*/
-#if PF_USE_WRITE
+#if 1
 
 FRESULT pf_write (
 	const void* buff,	/* Pointer to the data to be written */

@@ -39,7 +39,7 @@ void initSpi(void)
     UCB0BR1 = 0; //
     UCA0MCTL = 0; // No modulation
     UCB0CTL1 &= ~UCSWRST; // **Initialize USCI state machine**
-    IE2 |= UCB0RXIE;                          // Enable USCI0 RX interrupt
+    //IE2 |= UCB0RXIE;                          // Enable USCI0 RX interrupt
 
     P1DIR |= BIT4;
     P1OUT |= BIT4;

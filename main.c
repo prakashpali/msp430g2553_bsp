@@ -9,13 +9,13 @@
 #include "pfal/uart/uart.h"
 #include "pfal/timer/timer.h"
 #include "pfal/spi/spi.h"
-#include "pfal/sdmmc/sdmmc.h"
 #include "pfal/sdmmc/diskio.h"
 //#include "pfal/i2c/i2c.h"
 
 volatile uint8_t *uartTxData = "UART TX data\r\n";
 volatile uint8_t uartRxData[50];
-uint8_t spiRxData[50];
+volatile uint8_t spiRxData[50];
+volatile uint16_t spi_rx_count = 0;
 uint8_t spiTxData[50] = "SPI data\r\n";
 
 volatile uint16_t time_us = 0;
@@ -26,8 +26,16 @@ volatile uint16_t time_h = 0;
 
 void main(void)
 {
+
+    FATFS fatfs;            /* File system object */
+//    DIR dir;                /* Directory object */
+//    FILINFO fno;            /* File information object */
+    UINT bw, br, i;
+    BYTE buff[64];
+    FRESULT rc;
+
     uint16_t print_time = 0;
-    uint8_t ret = 0;
+    //uint8_t ret = 0;
 
 	WDTCTL = WDTPW | WDTHOLD;		           // stop watchdog timer
     DCOCTL = 0;                                // Select lowest DCOx and MODx settings
@@ -43,37 +51,55 @@ void main(void)
 
 	initTimer();
 	initTempSensor();
-
+/*
     ret = disk_initialize();
     printf_1("disk_initialize returned %d \r\n", ret);
 
+    ret = disk_writep (spiTxData, 10);
+    printf_1("disk_writep returned %d \r\n", ret);
+
     ret = disk_readp(spiRxData, 10, 0, 5);
     printf_1("disk_readp returned %d \r\n", ret);
+*/
 
-//	ret = sdmmcInit();
-//	printf_1("SDMMC Init returned %d \r\n", ret);
-//
-//	ret = sdmmcPing();
-//    printf_1("SDMMC Ping returned %d \r\n", ret);
-//
-//    ret = sdmmcCheckBusy();
-//    printf_1("SDMMC Check Busy returned %d \r\n", ret);
-//
-//    ret = sdmmcReadCardSize();
-//    printf_1("SDMMC Card Size returned %d \r\n", ret);
-//
-//    ret = sdmmcWriteBlock (10, 5, spiTxData);
-//    printf_1("SDMMC Write block returned %d \r\n", ret);
-//
-//    ret = sdmmcReadBlock(10, 5, spiRxData);
-//    printf_1("SDMMC Read block returned %d \r\n", ret);
+#if 1
+
+    printf("\r\nMount a volume.\r\n");
+    rc = pf_mount(&fatfs);
+    printf_1("pf_mount returned %d \r\n", rc);
+
+    printf("\r\nOpen a test file (message.txt).\r\n");
+    rc = pf_open("MESSAGE.TXT");
+    printf_1("pf_open returned %d \r\n", rc);
+
+    printf("\r\nType the file content.\r\n");
+    for (;;) {
+        rc = pf_read(buff, sizeof(buff), &br);  /* Read a chunk of file */
+        printf_1("pf_read returned %d \r\n", rc);
+        if (rc || !br) break;           /* Error or end of file */
+        for (i = 0; i < br; i++)        /* Type the data */
+            printf_1("data is %d\r\n", buff[i]);
+    }
 
 
+    printf("\r\nOpen a file to write (write.txt).\r\n");
+    rc = pf_open("WRITE.TXT");
+    printf_1("pf_open returned %d \r\n", rc);
 
-	//initSpi();
-	//sendSpiData(spiTxData, 10);
+    printf("\r\nWrite a text data. (Hello world!)\r\n");
+    for (;;) {
+        rc = pf_write("Hello world!\r\n", 14, &bw);
+        printf_1("pf_write returned %d \r\n", rc);
+        if (rc || !bw) break;
+    }
 
-    //printf_1("Size of short int is %d \r\n", sizeof(short int));
+    printf("\r\nTerminate the file write process.\r\n");
+    rc = pf_write(0, 0, &bw);
+    printf_1("pf_write returned %d \r\n", rc);
+
+#endif
+
+    //printf("\r\nTest completed.\r\n");
 
     __bis_SR_register(GIE);       // Enter LPM0, interrupts enabled
 

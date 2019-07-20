@@ -17,7 +17,6 @@ main.obj: C:/ti/ccsv8/tools/compiler/ti-cgt-msp430_18.1.3.LTS/include/sys/_stdin
 main.obj: ../pfal/uart/uart.h
 main.obj: ../pfal/timer/timer.h
 main.obj: ../pfal/spi/spi.h
-main.obj: ../pfal/sdmmc/sdmmc.h
 main.obj: ../pfal/sdmmc/diskio.h
 main.obj: ../pfal/sdmmc/pff.h
 main.obj: ../pfal/sdmmc/pffconf.h
@@ -39,7 +38,6 @@ C:/ti/ccsv8/tools/compiler/ti-cgt-msp430_18.1.3.LTS/include/sys/_stdint.h:
 ../pfal/uart/uart.h: 
 ../pfal/timer/timer.h: 
 ../pfal/spi/spi.h: 
-../pfal/sdmmc/sdmmc.h: 
 ../pfal/sdmmc/diskio.h: 
 ../pfal/sdmmc/pff.h: 
 ../pfal/sdmmc/pffconf.h: 

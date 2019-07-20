@@ -122,14 +122,13 @@ DSTATUS disk_initialize (void)
 	BYTE n, cmd, ty, ocr[4];
 	UINT tmr;
 
-#if PF_USE_WRITE
-    CS_LOW()
-	if (CardType != 0) disk_writep(0, 0);	/* Finalize write process if it is in progress */
-#endif
-    initSpi();		/* Initialize ports to control MMC */
-	//CS_HIGH();
     CS_LOW();
+	if (CardType != 0) disk_writep(0, 0);	/* Finalize write process if it is in progress */
+    initSpi();		/* Initialize ports to control MMC */
+	CS_HIGH();
+    //CS_LOW();
 	for (n = 10; n; n--) rcv_mmc();	/* 80 dummy clocks with CS=H */
+	CS_LOW();
 
 	ty = 0;
 	if (send_cmd(CMD0, 0) == 1) {			/* GO_IDLE_STATE */
@@ -157,6 +156,7 @@ DSTATUS disk_initialize (void)
 	CardType = ty;
 	CS_HIGH();
 	rcv_mmc();
+
 
 	return ty ? 0 : STA_NOINIT;
 }
@@ -226,7 +226,6 @@ DRESULT disk_readp (
 /* Write partial sector                                                  */
 /*-----------------------------------------------------------------------*/
 
-#if PF_USE_WRITE
 DRESULT disk_writep (
 	const BYTE *buff,	/* Pointer to the bytes to be written (NULL:Initiate/Finalize sector write) */
 	DWORD sc			/* Number of bytes to send, Sector number (LBA) or zero */
@@ -269,4 +268,4 @@ DRESULT disk_writep (
 
 	return res;
 }
-#endif
+

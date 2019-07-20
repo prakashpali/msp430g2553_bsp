@@ -1,1 +1,4 @@
 1. http://processors.wiki.ti.com/index.php/USCI_UART_Baud_Rate_Gen_Mode_Selection
+
+
+

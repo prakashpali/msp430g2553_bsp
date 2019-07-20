@@ -15,7 +15,6 @@ ORDERED_OBJS += \
 "./pfal/i2c/i2c.obj" \
 "./pfal/sdmmc/diskio.obj" \
 "./pfal/sdmmc/pff.obj" \
-"./pfal/sdmmc/sdmmc.obj" \
 "./pfal/spi/spi.obj" \
 "./pfal/timer/timer.obj" \
 "./pfal/uart/uart.obj" \
@@ -174,8 +173,8 @@ msp430g2553_bsp.hex: $(EXE_OUTPUTS)
 # Other Targets
 clean:
 	-$(RM) $(BIN_OUTPUTS__QUOTED)$(EXE_OUTPUTS__QUOTED)
-	-$(RM) "main.obj" "pfal\adc\adc.obj" "pfal\i2c\i2c.obj" "pfal\sdmmc\diskio.obj" "pfal\sdmmc\pff.obj" "pfal\sdmmc\sdmmc.obj" "pfal\spi\spi.obj" "pfal\timer\timer.obj" "pfal\uart\uart.obj" 
-	-$(RM) "main.d" "pfal\adc\adc.d" "pfal\i2c\i2c.d" "pfal\sdmmc\diskio.d" "pfal\sdmmc\pff.d" "pfal\sdmmc\sdmmc.d" "pfal\spi\spi.d" "pfal\timer\timer.d" "pfal\uart\uart.d" 
+	-$(RM) "main.obj" "pfal\adc\adc.obj" "pfal\i2c\i2c.obj" "pfal\sdmmc\diskio.obj" "pfal\sdmmc\pff.obj" "pfal\spi\spi.obj" "pfal\timer\timer.obj" "pfal\uart\uart.obj" 
+	-$(RM) "main.d" "pfal\adc\adc.d" "pfal\i2c\i2c.d" "pfal\sdmmc\diskio.d" "pfal\sdmmc\pff.d" "pfal\spi\spi.d" "pfal\timer\timer.d" "pfal\uart\uart.d" 
 	-@echo 'Finished clean'
 	-@echo ' '
 

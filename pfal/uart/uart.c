@@ -15,6 +15,8 @@ volatile uint16_t raw_uart_data = 0x0;
 
 extern volatile uint8_t *uartTxData;
 extern volatile uint8_t uartRxData[50];
+extern volatile uint8_t spiRxData[50];
+extern volatile uint16_t spi_rx_count;
 volatile uint8_t rxCount = 0;
 volatile uint8_t txCount = 0;
 
@@ -321,6 +323,14 @@ __interrupt void USCI0RX_ISR(void)
           UC0IE |= UCA0TXIE; // Enable USCI_A0 TX interrupt
       }
    }
+   else if (UCB0RXBUF)
+      {
+
+       spiRxData[spi_rx_count++] = UCB0RXBUF;
+       if (spi_rx_count == 49)
+           spi_rx_count = 0;
+
+      }
 
 }
 

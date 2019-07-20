@@ -15,6 +15,40 @@ extern "C" {
 #include "../uart/uart.h"
 #include "pff.h"
 
+//
+//
+//
+//            MSP430g2553                  MMC Card
+//         -----------------          -----------------
+//     /|\|              XIN|-   /|\ |                 |
+//      | |                 |     |  |                 |
+//      --|RST          XOUT|-    |--|Pin4/Vcc         |
+//        |                 |        |                 |
+//        |                 |        |                 |
+//        |            P2.5 |<-------|Pin6/CD          |
+//        |            P1.4 |------->|Pin1/CS          |
+//        |                 |        |                 |
+//        |      P1.6/SOMI  |------->|Pin7/DOUT        |
+//        |      P1.7/SIMO  |<-------|Pin2/DIN         |
+//        |      P1.5/UCLK  |------->|Pin5/CLK         |
+//        |                 |        |                 |
+//        |                 |     |--|Pin3/GND         |
+//                                |
+//                                =
+//
+//  Pin configuration at MSP430G2553:
+//  --------------------------------
+//  MSP430G2553      MSP Pin        MMC             MMC Pin
+//  -------------------------------------------------------------
+//  P1.4              48           ChipSelect       1
+//  P1.6 / SOMI       46           DataOut          7
+//                                 GND              3 (0 V)
+//                                 VDD              4 (3.3 V)
+//  P1.5 / UCLK       47           Clock            5
+//  P2.5              44           CardDetect       6
+//  P1.7 / SIMO       45           DataIn           2
+//  -------------------------------------------------------------
+
 /* Status of Disk Functions */
 typedef BYTE	DSTATUS;
 
